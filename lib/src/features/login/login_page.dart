@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../constants/color.dart';
 import '../../constants/icon.dart';
@@ -135,8 +139,21 @@ class LoginPage extends GetView<LoginController> {
                         ),
                       ),
                     ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                      FilteringTextInputFormatter.deny(RegExp(r'^0+')),
+                    ],
                     controller: controller.etPhone,
                   ),
+                  Obx(() {
+                    return controller.isPhoneNumberValid.value == false
+                        ? const Text(
+                            "Phone number length less than 8 or more than 16",
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          )
+                        : const SizedBox();
+                  }),
                 ],
               ),
               const SizedBox(height: 24),
@@ -167,44 +184,69 @@ class LoginPage extends GetView<LoginController> {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  TextFormField(
-                    keyboardType: TextInputType.visiblePassword,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: gray900),
-                    obscureText: true,
-                    cursorColor: primary,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.only(
-                        left: 12,
-                        right: -14,
-                        top: 20,
-                        bottom: 20,
+                  Obx(() {
+                    return TextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: gray900),
+                      obscureText: controller.isPasswordHidden.value,
+                      cursorColor: primary,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(
+                          left: 12,
+                          right: -14,
+                          top: 20,
+                          bottom: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              const BorderSide(color: gray200, width: 1.5),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide:
+                              const BorderSide(color: gray200, width: 1.5),
+                        ),
+                        fillColor: white,
+                        filled: true,
+                        hintText: 'Password',
+                        suffixIcon: InkWell(
+                          child: Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: ImageIcon(
+                              AssetImage(controller.isPasswordHidden.value
+                                  ? ic_show_password
+                                  : ic_hide_password),
+                            ),
+                          ),
+                          onTap: () {
+                            controller.isPasswordHidden.value =
+                                !controller.isPasswordHidden.value;
+                          },
+                        ),
+                        prefixIcon: const Padding(
+                          padding: EdgeInsets.all(14.0),
+                          child: ImageIcon(
+                            AssetImage(ic_password),
+                          ), // icon is 48px widget.
+                        ),
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide:
-                            const BorderSide(color: gray200, width: 1.5),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide:
-                            const BorderSide(color: gray200, width: 1.5),
-                      ),
-                      fillColor: white,
-                      filled: true,
-                      hintText: 'Password',
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.all(14.0),
-                        child: ImageIcon(
-                          AssetImage(ic_password),
-                        ), // icon is 48px widget.
-                      ),
-                    ),
-                    controller: controller.etPassword,
-                  ),
+                      controller: controller.etPassword,
+                    );
+                  }),
+                  Obx(() {
+                    return controller.isPasswordValid.value == false
+                        ? const Text(
+                            "Password length less than 8",
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          )
+                        : const SizedBox();
+                  }),
                 ],
               ),
               const SizedBox(height: 24),
@@ -228,7 +270,9 @@ class LoginPage extends GetView<LoginController> {
           textColor: white,
           textLabel: "Sign In",
           onClick: () {
-            controller.doLogin();
+            if (controller.validator()) {
+              controller.doLogin();
+            }
           },
         ),
       ));

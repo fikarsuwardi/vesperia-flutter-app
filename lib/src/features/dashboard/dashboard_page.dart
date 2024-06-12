@@ -12,7 +12,7 @@ class DashboardPage extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-            () => IndexedStack(
+        () => IndexedStack(
             index: controller.selectedNavbar, children: controller.listPages),
       ),
       bottomNavigationBar: Theme(
@@ -21,7 +21,7 @@ class DashboardPage extends GetView<DashboardController> {
           highlightColor: Colors.transparent,
         ),
         child: Obx(
-              () => BottomNavigationBar(
+          () => BottomNavigationBar(
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 label: "Products",

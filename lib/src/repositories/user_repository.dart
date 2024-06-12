@@ -19,7 +19,9 @@ class UserRepository {
     await Future.delayed(const Duration(seconds: 2));
     //Placeholder token. DO NOT call real logout API using this token
     _local.write(
-        LocalDataKey.token, "621|DBiUBMfsEtX01tbdu4duNRCNMTt7PV5blr6zxTvq");
+      LocalDataKey.token,
+      "621|DBiUBMfsEtX01tbdu4duNRCNMTt7PV5blr6zxTvq",
+    );
   }
 
   Future<void> logout() async {

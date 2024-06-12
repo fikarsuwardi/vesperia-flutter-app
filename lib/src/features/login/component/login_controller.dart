@@ -15,6 +15,30 @@ class LoginController extends GetxController {
   final etPhone = TextEditingController();
   final etPassword = TextEditingController();
 
+  var isPasswordHidden = true.obs;
+
+  var isPhoneNumberValid = true.obs;
+  var isPasswordValid = true.obs;
+
+  var isButtonLoginDisable = false.obs;
+
+  bool validator() {
+    bool isValid = true;
+    if (etPhone.text.length < 8 || etPhone.text.length > 16) {
+      isPhoneNumberValid.value = false;
+      isValid = false;
+    }
+
+    if (etPassword.text.length < 8) {
+      isPasswordValid.value = false;
+      isValid = false;
+    }
+    print(isValid.toString());
+    print("asdasdas ${etPhone.text}");
+    print("paakakka ${etPassword.text}");
+    return isValid;
+  }
+
   void doLogin() async {
     if (etPhone.text != '85173254399' || etPassword.text != '12345678') {
       SnackbarWidget.showFailedSnackbar('Email atau password salah');
