@@ -10,6 +10,7 @@ import '../../constants/color.dart';
 import '../../constants/icon.dart';
 import '../../widgets/button_icon.dart';
 import 'component/login_controller.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({Key? key}) : super(key: key);
@@ -113,30 +114,39 @@ class LoginPage extends GetView<LoginController> {
                       fillColor: white,
                       filled: true,
                       hintText: 'Phone Number',
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 14.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(width: 6),
-                            Text(
-                              '+62',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: gray900),
-                            ),
-                            SizedBox(width: 12),
-                            SizedBox(
-                              width: 1.5,
-                              height: 48,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(color: gray100),
-                              ),
-                            ),
-                          ],
-                        ),
+                      prefixIcon: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // SizedBox(width: 6),
+                          // Text(
+                          //   '+62',
+                          //   style: TextStyle(
+                          //       fontSize: 14,
+                          //       fontWeight: FontWeight.w600,
+                          //       color: gray900),
+                          // ),
+                          // SizedBox(width: 12),
+                          // SizedBox(
+                          //   width: 1.5,
+                          //   height: 48,
+                          //   child: DecoratedBox(
+                          //     decoration: BoxDecoration(color: gray100),
+                          //   ),
+                          // ),
+                          CountryCodePicker(
+                            onChanged: print,
+                            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                            initialSelection: 'ID',
+                            // favorite: ['+39', 'FR'],
+                            // optional. Shows only country name and flag
+                            showCountryOnly: false,
+                            // optional. Shows only country name and flag when popup is closed.
+                            showOnlyCountryWhenClosed: false,
+                            // optional. aligns the flag and the Text left
+                            alignLeft: false,
+                          ),
+                        ],
                       ),
                     ),
                     inputFormatters: [
@@ -263,17 +273,19 @@ class LoginPage extends GetView<LoginController> {
       height: 52,
       width: double.infinity,
       child: SizedBox(
-        height: 52,
-        width: double.infinity,
-        child: ButtonIcon(
-          buttonColor: primary,
-          textColor: white,
-          textLabel: "Sign In",
-          onClick: () {
-            if (controller.validator()) {
-              controller.doLogin();
-            }
-          },
-        ),
-      ));
+          height: 52,
+          width: double.infinity,
+          child: Obx(() {
+            return ButtonIcon(
+              buttonColor:
+                  controller.isButtonLoginDisable.value ? Colors.grey : primary,
+              textColor: white,
+              textLabel: "Sign In",
+              onClick: () {
+                if (controller.validator()) {
+                  controller.doLogin();
+                }
+              },
+            );
+          })));
 }

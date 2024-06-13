@@ -9,13 +9,8 @@ import '../../../../widgets/snackbar_widget.dart';
 
 import 'dart:io';
 
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
-import 'package:flutter_web_browser/flutter_web_browser.dart';
 
 class ProfileController extends GetxController {
   final UserRepository _userRepository;
@@ -35,6 +30,8 @@ class ProfileController extends GetxController {
   ProfileController({
     required UserRepository userRepository,
   }) : _userRepository = userRepository;
+
+  var isButtonLogOutDisable = false.obs;
 
   @override
   void onInit() {
@@ -89,35 +86,10 @@ class ProfileController extends GetxController {
     if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
       throw Exception('Could not launch $url');
     }
-
-    // FlutterWebBrowser.openWebPage(
-    //   url: "https://flutter.io/",
-    //   customTabsOptions: const CustomTabsOptions(
-    //     colorScheme: CustomTabsColorScheme.dark,
-    //     toolbarColor: Colors.deepPurple,
-    //     secondaryToolbarColor: Colors.green,
-    //     navigationBarColor: Colors.amber,
-    //     shareState: CustomTabsShareState.on,
-    //     instantAppsEnabled: true,
-    //     showTitle: true,
-    //     urlBarHidingEnabled: true,
-    //   ),
-    //   safariVCOptions: const SafariViewControllerOptions(
-    //     barCollapsingEnabled: true,
-    //     preferredBarTintColor: Colors.green,
-    //     preferredControlTintColor: Colors.amber,
-    //     dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
-    //     modalPresentationCapturesStatusBarAppearance: true,
-    //   ),
-    // );
-
-    // await FlutterWebBrowser.openWebPage(
-    //   url: "https://gadgets.ndtv.com/",
-    //   // androidToolbarColor: Colors.deepPurple,
-    // );
   }
 
   void doLogout() async {
+    isButtonLogOutDisable.value = true;
     await _userRepository.logout();
     Get.offAllNamed(RouteName.login);
   }

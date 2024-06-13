@@ -33,9 +33,6 @@ class LoginController extends GetxController {
       isPasswordValid.value = false;
       isValid = false;
     }
-    print(isValid.toString());
-    print("asdasdas ${etPhone.text}");
-    print("paakakka ${etPassword.text}");
     return isValid;
   }
 
@@ -44,6 +41,7 @@ class LoginController extends GetxController {
       SnackbarWidget.showFailedSnackbar('Email atau password salah');
       return;
     }
+    isButtonLoginDisable.value = true;
     await _userRepository.login();
     Get.offAllNamed(RouteName.dashboard);
   }
