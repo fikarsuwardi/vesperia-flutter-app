@@ -25,3 +25,5 @@ const ic_favorite_filled = 'assets/icons/icon-favorite-filled.png';
 
 const ic_show_password = 'assets/icons/icon-show-password.png';
 const ic_hide_password = 'assets/icons/icon-hide-password.png';
+
+const ic_favorite_list = 'assets/icons/icon-favorite-list.png';

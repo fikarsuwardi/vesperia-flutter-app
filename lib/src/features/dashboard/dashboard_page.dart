@@ -52,12 +52,12 @@ class DashboardPage extends GetView<DashboardController> {
               BottomNavigationBarItem(
                 label: "Favorite",
                 icon: Image.asset(
-                  ic_profile,
+                  ic_favorite_empty,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: Image.asset(
-                  ic_profile_active,
+                  ic_favorite_list,
                   height: 24,
                   width: 24,
                 ),

@@ -168,7 +168,11 @@ class ProfilePage extends GetView<ProfileController> {
               textColor: red600,
               textLabel: "Sign Out",
               onClick: () {
-                showAlertDialog(context);
+                if (controller.isButtonLogOutDisable.value) {
+                  null;
+                } else {
+                  showAlertDialog(context);
+                }
               },
             );
           }),
@@ -186,7 +190,11 @@ class ProfilePage extends GetView<ProfileController> {
     Widget continueButton = TextButton(
       child: Text("Continue"),
       onPressed: () {
-        controller.doLogout();
+        if (controller.isButtonLogOutDisable.value) {
+          null;
+        } else {
+          controller.doLogout();
+        }
       },
     );
 
