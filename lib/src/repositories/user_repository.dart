@@ -36,16 +36,16 @@ class UserRepository {
           LocalDataKey.token,
           res.data["data"]["token"],
         );
-        isButtonLoginDisable(false.obs);
         Get.offAllNamed(RouteName.dashboard);
-      } else {
         isButtonLoginDisable(false.obs);
+      } else {
         SnackbarWidget.showFailedSnackbar('Failed to login');
+        isButtonLoginDisable(false.obs);
       }
     } catch (e) {
-      isButtonLoginDisable(false.obs);
       SnackbarWidget.showFailedSnackbar(
           'Please give correct email and password');
+      isButtonLoginDisable(false.obs);
     }
   }
 

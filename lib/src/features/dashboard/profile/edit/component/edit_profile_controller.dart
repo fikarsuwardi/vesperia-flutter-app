@@ -74,7 +74,8 @@ class EditProfileController extends GetxController {
 
         etBirthDate.text = '';
         if (localUser.dateOfBirth.isNullOrEmpty == false) {
-          birthDate = DateUtil.getDateFromShortServerFormat(localUser.dateOfBirth!);
+          birthDate =
+              DateUtil.getDateFromShortServerFormat(localUser.dateOfBirth!);
           etBirthDate.text = DateUtil.getBirthDate(birthDate);
         }
       } else {
@@ -102,6 +103,55 @@ class EditProfileController extends GetxController {
   void onChangeBirthDate(DateTime dateTime) {
     birthDate = dateTime;
     etBirthDate.text = DateUtil.getBirthDate(birthDate);
+  }
+
+  bool validateData() {
+    bool validate = true;
+    if (etFullName.text == "") {
+      SnackbarWidget.showFailedSnackbar('Name cannot be empty');
+      validate = false;
+      return false;
+    }
+    if (etEmail.text == "") {
+      SnackbarWidget.showFailedSnackbar('Email cannot be empty');
+      validate = false;
+      return false;
+    }
+    bool emailValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(etEmail.text);
+
+    if (!emailValid) {
+      SnackbarWidget.showFailedSnackbar('Wrong Format Email');
+      validate = false;
+      return false;
+    }
+
+    if (etHeight.text != "") {
+      if (int.parse(etHeight.text) < 0) {
+        SnackbarWidget.showFailedSnackbar('Height cannot below than 0');
+        validate = false;
+        return false;
+      }
+    } else {
+      SnackbarWidget.showFailedSnackbar('Height cannot be Empty');
+      validate = false;
+      return false;
+    }
+
+    if (etWeight.text != "") {
+      if (int.parse(etWeight.text) < 0) {
+        SnackbarWidget.showFailedSnackbar('Weight cannot below than 0');
+        validate = false;
+        return false;
+      }
+    } else {
+      SnackbarWidget.showFailedSnackbar('Weight cannot be Empty');
+      validate = false;
+      return false;
+    }
+
+    return validate;
   }
 
   void saveData() async {

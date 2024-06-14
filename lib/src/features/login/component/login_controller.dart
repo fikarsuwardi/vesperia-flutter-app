@@ -46,7 +46,7 @@ class LoginController extends GetxController {
       etPhone.text,
       etPassword.text,
       (var isButtonLoginDisable) {
-        this.isButtonLoginDisable = false.obs;
+        this.isButtonLoginDisable = isButtonLoginDisable;
       },
     );
   }

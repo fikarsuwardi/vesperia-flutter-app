@@ -526,7 +526,9 @@ class EditProfilePage extends GetView<EditProfileController> {
                     textColor: white,
                     textLabel: "Save Changes",
                     onClick: () {
-                      controller.saveData();
+                      if (controller.validateData()) {
+                        controller.saveData();
+                      }
                     },
                   ),
                 ),
