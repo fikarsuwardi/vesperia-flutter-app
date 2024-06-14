@@ -24,40 +24,26 @@ class UserRepository {
     String password,
     Function(RxBool) isButtonLoginDisable,
   ) async {
-    // //Artificial delay to simulate logging in process
-    // await Future.delayed(const Duration(seconds: 2));
-    // //Placeholder token. DO NOT call real logout API using this token
-    // _local.write(
-    //   LocalDataKey.token,
-    //   "621|DBiUBMfsEtX01tbdu4duNRCNMTt7PV5blr6zxTvq",
-    // );
-
-    isButtonLoginDisable(false.obs);
-
     try {
-      final res = await _dio
-          .post('http://develop-at.vesperia.id:1091/api/v1/sign-in', data: {
+      final res = await _client.post(Endpoint.signIn, data: {
         'phone_number': phoneNumber,
         'password': password,
         'country_code': "62",
       });
-
-      isButtonLoginDisable(true.obs);
-
       if (res.statusCode == 200) {
         SnackbarWidget.showSuccessSnackbar('Sukses Login');
         _local.write(
           LocalDataKey.token,
           res.data["data"]["token"],
         );
-        isButtonLoginDisable(true.obs);
-
+        isButtonLoginDisable(false.obs);
         Get.offAllNamed(RouteName.dashboard);
       } else {
-        isButtonLoginDisable(true.obs);
+        isButtonLoginDisable(false.obs);
         SnackbarWidget.showFailedSnackbar('Failed to login');
       }
     } catch (e) {
+      isButtonLoginDisable(false.obs);
       SnackbarWidget.showFailedSnackbar(
           'Please give correct email and password');
     }
@@ -65,8 +51,17 @@ class UserRepository {
 
   Future<void> logout() async {
     //Artificial delay to simulate logging out process
-    await Future.delayed(const Duration(seconds: 2));
-    await _local.remove(LocalDataKey.token);
+    // await Future.delayed(const Duration(seconds: 2));
+    try {
+      await _client.post(
+        Endpoint.signOut,
+        options: NetworkingUtil.setupNetworkOptions(
+            'Bearer ${_local.read(LocalDataKey.token)}'),
+      );
+      await _local.remove(LocalDataKey.token);
+    } on DioException catch (_) {
+      rethrow;
+    }
   }
 
   Future<UserResponseModel> getUser() async {

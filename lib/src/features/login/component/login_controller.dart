@@ -20,7 +20,7 @@ class LoginController extends GetxController {
   var isPhoneNumberValid = true.obs;
   var isPasswordValid = true.obs;
 
-  RxBool isButtonLoginDisable = false.obs;
+  var isButtonLoginDisable = false.obs;
 
   bool validator() {
     bool isValid = true;
@@ -41,12 +41,12 @@ class LoginController extends GetxController {
     //   SnackbarWidget.showFailedSnackbar('Email atau password salah');
     //   return;
     // }
-    // isButtonLoginDisable.value = true;
+    isButtonLoginDisable.value = true;
     await _userRepository.login(
       etPhone.text,
       etPassword.text,
-      (RxBool isButtonLoginDisable) {
-        this.isButtonLoginDisable = isButtonLoginDisable;
+      (var isButtonLoginDisable) {
+        this.isButtonLoginDisable = false.obs;
       },
     );
   }

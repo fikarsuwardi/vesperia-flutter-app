@@ -278,8 +278,12 @@ class LoginPage extends GetView<LoginController> {
               textColor: white,
               textLabel: "Sign In",
               onClick: () {
-                if (controller.validator()) {
-                  controller.doLogin();
+                if (controller.isButtonLoginDisable.value) {
+                  null;
+                } else {
+                  if (controller.validator()) {
+                    controller.doLogin();
+                  }
                 }
               },
             );
