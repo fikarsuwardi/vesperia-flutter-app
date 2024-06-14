@@ -1,10 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../constants/color.dart';
 import '../../constants/icon.dart';
@@ -114,7 +110,7 @@ class LoginPage extends GetView<LoginController> {
                       fillColor: white,
                       filled: true,
                       hintText: 'Phone Number',
-                      prefixIcon: Row(
+                      prefixIcon: const Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -270,9 +266,9 @@ class LoginPage extends GetView<LoginController> {
   }
 
   Widget loginButton() => SizedBox(
-      height: 52,
-      width: double.infinity,
-      child: SizedBox(
+        height: 52,
+        width: double.infinity,
+        child: SizedBox(
           height: 52,
           width: double.infinity,
           child: Obx(() {
@@ -282,10 +278,12 @@ class LoginPage extends GetView<LoginController> {
               textColor: white,
               textLabel: "Sign In",
               onClick: () {
-                if (controller.validator()) {
-                  controller.doLogin();
-                }
+                // if (controller.validator()) {
+                controller.doLogin();
+                // }
               },
             );
-          })));
+          }),
+        ),
+      );
 }

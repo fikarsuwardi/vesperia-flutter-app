@@ -48,7 +48,20 @@ class DashboardPage extends GetView<DashboardController> {
                   height: 24,
                   width: 24,
                 ),
-              )
+              ),
+              BottomNavigationBarItem(
+                label: "Favorite",
+                icon: Image.asset(
+                  ic_profile,
+                  height: 24,
+                  width: 24,
+                ),
+                activeIcon: Image.asset(
+                  ic_profile_active,
+                  height: 24,
+                  width: 24,
+                ),
+              ),
             ],
             currentIndex: controller.selectedNavbar,
             selectedItemColor: primary,

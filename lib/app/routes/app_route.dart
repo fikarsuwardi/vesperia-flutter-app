@@ -12,10 +12,6 @@ import '../../src/features/login/login_page.dart';
 class AppRoute {
   static final pages = [
     GetPage(
-      name: RouteName.splashScreen,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
       name: RouteName.login,
       page: () => const LoginPage(),
       binding: LoginBinding(),
@@ -29,6 +25,10 @@ class AppRoute {
       name: RouteName.editProfile,
       page: () => const EditProfilePage(),
       binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: RouteName.splashScreen,
+      page: () => const SplashScreen(),
     ),
   ];
 }

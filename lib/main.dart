@@ -15,16 +15,16 @@ bool isHaveToken = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
 
   final box = GetStorage();
-  var token = box.read(LocalDataKey.token);
+  String? token = box.read(LocalDataKey.token);
 
-  if (token == "621|DBiUBMfsEtX01tbdu4duNRCNMTt7PV5blr6zxTvq") {
+  if (token != null) {
     isHaveToken = true;
   } else {
     isHaveToken = false;
   }
-
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   await initializeDateFormatting('en_EN', null)
       .then((_) => runApp(const MainApp()));

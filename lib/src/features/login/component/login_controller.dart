@@ -20,7 +20,7 @@ class LoginController extends GetxController {
   var isPhoneNumberValid = true.obs;
   var isPasswordValid = true.obs;
 
-  var isButtonLoginDisable = false.obs;
+  RxBool isButtonLoginDisable = false.obs;
 
   bool validator() {
     bool isValid = true;
@@ -37,12 +37,17 @@ class LoginController extends GetxController {
   }
 
   void doLogin() async {
-    if (etPhone.text != '85173254399' || etPassword.text != '12345678') {
-      SnackbarWidget.showFailedSnackbar('Email atau password salah');
-      return;
-    }
-    isButtonLoginDisable.value = true;
-    await _userRepository.login();
-    Get.offAllNamed(RouteName.dashboard);
+    // if (etPhone.text != '85173254399' || etPassword.text != '12345678') {
+    //   SnackbarWidget.showFailedSnackbar('Email atau password salah');
+    //   return;
+    // }
+    // isButtonLoginDisable.value = true;
+    await _userRepository.login(
+      etPhone.text,
+      etPassword.text,
+      (RxBool isButtonLoginDisable) {
+        this.isButtonLoginDisable = isButtonLoginDisable;
+      },
+    );
   }
 }

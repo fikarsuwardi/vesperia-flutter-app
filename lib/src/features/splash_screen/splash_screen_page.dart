@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const String id = 'welcome_screen';
-
   const SplashScreen({super.key});
 
   @override
@@ -37,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -55,12 +53,12 @@ class _SplashScreenState extends State<SplashScreen>
                 flex: 1,
                 child: Center(
                   child: SizedBox(
-                    height: 200.0,
+                    height: 150.0,
                     child: Image.asset('assets/icons/icon-app.png'),
                   ),
                 ),
               ),
-              Text("Ver. 18.1.20"),
+              const Text("Ver. 18.1.20"),
             ],
           ),
         ),
