@@ -22,6 +22,9 @@ class DateUtil {
   static String getBirthDate(DateTime date) =>
       DateFormat("dd MMMM yyyy", "en_EN").format(date.toLocal());
 
+  static String getBirthDate2(DateTime date) =>
+      DateFormat("yyyy-MM-dd").format(date.toLocal());
+
   static String getTimeAgo(DateTime date) {
     var time = date.millisecondsSinceEpoch;
     if (time < 1000000000000) {

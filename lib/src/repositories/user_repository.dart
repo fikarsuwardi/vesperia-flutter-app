@@ -2,9 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:entrance_test/app/routes/route_name.dart';
 import 'package:entrance_test/src/constants/local_data_key.dart';
 import 'package:entrance_test/src/widgets/snackbar_widget.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 
 import '../constants/endpoint.dart';
 import '../models/response/user_response_model.dart';
@@ -13,7 +12,6 @@ import '../utils/networking_util.dart';
 class UserRepository {
   final Dio _client;
   final GetStorage _local;
-  final _dio = Dio();
 
   UserRepository({required Dio client, required GetStorage local})
       : _client = client,
@@ -31,11 +29,11 @@ class UserRepository {
         'country_code': "62",
       });
       if (res.statusCode == 200) {
-        SnackbarWidget.showSuccessSnackbar('Sukses Login');
         _local.write(
           LocalDataKey.token,
           res.data["data"]["token"],
         );
+        SnackbarWidget.showSuccessSnackbar('Sukses Login');
         Get.offAllNamed(RouteName.dashboard);
         isButtonLoginDisable(false.obs);
       } else {
@@ -75,6 +73,40 @@ class UserRepository {
       return model;
     } on DioException catch (_) {
       rethrow;
+    }
+  }
+
+  Future<void> editUser({
+    required String name,
+    required String email,
+    required String gender,
+    required String dateOfBirh,
+    required String height,
+    required String weight,
+    required String profilePicture,
+  }) async {
+    var formData = FormData.fromMap({
+      "name": name,
+      "email": email,
+      "gender": gender,
+      "date_of_birth": dateOfBirh,
+      "height": height,
+      "weight": weight,
+      "profile_picture": profilePicture,
+      "_method": "PUT"
+    });
+    final responseJson = await _client.post(
+      Endpoint.editUser,
+      options: NetworkingUtil.setupNetworkOptions(
+          'Bearer ${_local.read(LocalDataKey.token)}'),
+      data: formData,
+    );
+
+    if (responseJson.statusCode == 200) {
+      Get.back();
+      SnackbarWidget.showSuccessSnackbar('Success Edit');
+    } else {
+      SnackbarWidget.showFailedSnackbar('Failed');
     }
   }
 

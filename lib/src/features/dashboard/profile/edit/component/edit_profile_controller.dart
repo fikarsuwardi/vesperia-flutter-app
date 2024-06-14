@@ -155,6 +155,14 @@ class EditProfileController extends GetxController {
   }
 
   void saveData() async {
-    //TODO: Implement edit user API
+    await _userRepository.editUser(
+      name: etFullName.text,
+      email: etEmail.text,
+      gender: _gender.value,
+      dateOfBirh: DateUtil.getBirthDate2(birthDate),
+      height: etHeight.text,
+      weight: etWeight.text,
+      profilePicture: '',
+    );
   }
 }

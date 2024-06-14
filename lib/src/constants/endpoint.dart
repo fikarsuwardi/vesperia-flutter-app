@@ -3,6 +3,8 @@ class Endpoint {
 
   static const getUser = '/user';
 
+  static const editUser = '/user/profile';
+
   static const getProductList = '/product';
 
   static const signIn = '/sign-in';
