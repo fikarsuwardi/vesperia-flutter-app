@@ -1,6 +1,7 @@
 import 'package:entrance_test/app/routes/route_name.dart';
 import 'package:entrance_test/src/features/dashboard/component/dashboard_binding.dart';
 import 'package:entrance_test/src/features/dashboard/dashboard_page.dart';
+import 'package:entrance_test/src/features/dashboard/products/detail/product_detail_page.dart';
 import 'package:entrance_test/src/features/dashboard/profile/edit/edit_profile_page.dart';
 import 'package:entrance_test/src/features/splash_screen/splash_screen_page.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,10 @@ class AppRoute {
     GetPage(
       name: RouteName.splashScreen,
       page: () => const SplashScreen(),
+    ),
+    GetPage(
+      name: RouteName.detailProduct,
+      page: () => const ProductDetailPage(),
     ),
   ];
 }

@@ -1,17 +1,14 @@
-import 'package:entrance_test/app/routes/route_name.dart';
-import 'package:flutter/widgets.dart';
+import 'package:entrance_test/src/models/product_model.dart';
+import 'package:entrance_test/src/models/request/product_list_request_model.dart';
+import 'package:entrance_test/src/repositories/product_repository.dart';
+import 'package:entrance_test/src/utils/networking_util.dart';
+import 'package:entrance_test/src/widgets/snackbar_widget.dart';
 import 'package:get/get.dart';
 
-import '../../../../../models/product_model.dart';
-import '../../../../../models/request/product_list_request_model.dart';
-import '../../../../../repositories/product_repository.dart';
-import '../../../../../utils/networking_util.dart';
-import '../../../../../widgets/snackbar_widget.dart';
-
-class ProductListController extends GetxController {
+class ProductDetailController extends GetxController {
   final ProductRepository _productRepository;
 
-  ProductListController({
+  ProductDetailController({
     required ProductRepository productRepository,
   }) : _productRepository = productRepository;
 
@@ -44,21 +41,12 @@ class ProductListController extends GetxController {
   //thus giving the command to ignore the first x number of data when retrieving
   int _skip = 0;
 
-  final scrollController = ScrollController();
   int _currentPage = 1;
 
   @override
   void onInit() {
     super.onInit();
     getProducts();
-    scrollController.addListener(_loadMore);
-  }
-
-  void _loadMore() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      getMoreProducts();
-    }
   }
 
   //first load or after refresh.
@@ -80,37 +68,5 @@ class ProductListController extends GetxController {
       SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(error));
     }
     _isLoadingRetrieveProduct.value = false;
-  }
-
-  void getMoreProducts() async {
-    if (_isLastPageProduct.value || _isLoadingRetrieveMoreProduct.value) return;
-
-    _isLoadingRetrieveMoreProduct.value = true;
-
-    //TODO: finish this function by calling get product list with appropriate parameters
-    try {
-      final productList =
-          await _productRepository.getProductList(ProductListRequestModel(
-        limit: _limit,
-        skip: _skip,
-      ));
-      // _products.value = productList.data;
-      _products.value.addAll(productList.data);
-      _products.refresh();
-      _isLastPageProduct.value = productList.data.length < _limit;
-      _skip = products.length;
-    } catch (error) {
-      SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(error));
-    }
-    _isLoadingRetrieveMoreProduct.value = false;
-  }
-
-  void toProductDetail(ProductModel product) async {
-    //TODO: finish this implementation by creating product detail page & calling it here
-    Get.toNamed(RouteName.detailProduct);
-  }
-
-  void setFavorite(ProductModel product) {
-    product.isFavorite = !product.isFavorite;
   }
 }

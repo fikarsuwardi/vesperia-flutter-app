@@ -4,4 +4,5 @@ abstract class RouteName {
 
   static const editProfile = '/profile/edit';
   static const splashScreen = '/splashScreen';
+  static const detailProduct = '/detailProduct';
 }
