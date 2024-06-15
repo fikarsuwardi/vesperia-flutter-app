@@ -52,12 +52,12 @@ class UserRepository {
     // await Future.delayed(const Duration(seconds: 2));
 
     try {
-      await _local.remove(LocalDataKey.token);
       await _client.post(
         Endpoint.signOut,
         options: NetworkingUtil.setupNetworkOptions(
             'Bearer ${_local.read(LocalDataKey.token)}'),
       );
+      await _local.remove(LocalDataKey.token);
     } on DioException catch (_) {
       rethrow;
     }

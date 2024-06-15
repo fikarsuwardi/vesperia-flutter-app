@@ -161,21 +161,14 @@ class ProfilePage extends GetView<ProfileController> {
         child: SizedBox(
           height: 52,
           width: double.infinity,
-          child: Obx(() {
-            return ButtonIcon(
-              buttonColor:
-                  controller.isButtonLogOutDisable.value ? Colors.grey : red50,
-              textColor: red600,
-              textLabel: "Sign Out",
-              onClick: () {
-                if (controller.isButtonLogOutDisable.value) {
-                  null;
-                } else {
-                  showAlertDialog(context);
-                }
-              },
-            );
-          }),
+          child: ButtonIcon(
+            buttonColor: red50,
+            textColor: red600,
+            textLabel: "Sign Out",
+            onClick: () {
+              showAlertDialog(context);
+            },
+          ),
         ),
       );
 
@@ -187,9 +180,12 @@ class ProfilePage extends GetView<ProfileController> {
         Navigator.of(context).pop();
       },
     );
-    Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed: () {
+
+    Widget continueButton = ButtonIcon(
+      buttonColor: controller.isButtonLogOutDisable.value ? Colors.grey : red50,
+      textColor: red600,
+      textLabel: "Continue",
+      onClick: () {
         if (controller.isButtonLogOutDisable.value) {
           null;
         } else {

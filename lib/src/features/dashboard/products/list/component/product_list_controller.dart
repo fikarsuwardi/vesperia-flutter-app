@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../../../../models/product_model.dart';
@@ -42,10 +43,21 @@ class ProductListController extends GetxController {
   //thus giving the command to ignore the first x number of data when retrieving
   int _skip = 0;
 
+  final scrollController = ScrollController();
+  int _currentPage = 1;
+
   @override
   void onInit() {
     super.onInit();
     getProducts();
+    scrollController.addListener(_loadMore);
+  }
+
+  void _loadMore() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      getMoreProducts();
+    }
   }
 
   //first load or after refresh.
@@ -58,7 +70,8 @@ class ProductListController extends GetxController {
         limit: _limit,
         skip: _skip,
       ));
-      _products.value = productList.data;
+      // _products.value = productList.data;
+      _products.value.addAll(productList.data);
       _products.refresh();
       _isLastPageProduct.value = productList.data.length < _limit;
       _skip = products.length;
@@ -74,7 +87,20 @@ class ProductListController extends GetxController {
     _isLoadingRetrieveMoreProduct.value = true;
 
     //TODO: finish this function by calling get product list with appropriate parameters
-
+    try {
+      final productList =
+          await _productRepository.getProductList(ProductListRequestModel(
+        limit: _limit,
+        skip: _skip,
+      ));
+      // _products.value = productList.data;
+      _products.value.addAll(productList.data);
+      _products.refresh();
+      _isLastPageProduct.value = productList.data.length < _limit;
+      _skip = products.length;
+    } catch (error) {
+      SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(error));
+    }
     _isLoadingRetrieveMoreProduct.value = false;
   }
 

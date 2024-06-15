@@ -31,16 +31,11 @@ class ProductListPage extends GetWidget<ProductListController> {
                         valueColor: AlwaysStoppedAnimation<Color>(primary),
                       ))
                     : (controller.products.isEmpty)
-                        ? Stack(
-                            children: [
-                              ListView(),
-                              const Center(
-                                child: EmptyListStateWidget(
-                                  iconSource: ic_empty_data,
-                                  text: "No product to show",
-                                ),
-                              ),
-                            ],
+                        ? const Center(
+                            child: EmptyListStateWidget(
+                              iconSource: ic_empty_data,
+                              text: "No product to show",
+                            ),
                           )
                         : buildProductList(context),
               ),
@@ -55,6 +50,7 @@ class ProductListPage extends GetWidget<ProductListController> {
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
       shrinkWrap: true,
+      controller: controller.scrollController,
       itemCount: controller.products.length,
       builder: (context, index) {
         final product = controller.products[index];
@@ -103,20 +99,19 @@ class ProductListPage extends GetWidget<ProductListController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           InkWell(
-                            onTap: () => {controller.setFavorite(product)},
-                            child: Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Obx(
-                                    () => Image.asset(
-                                  product.isFavorite
-                                      ? ic_favorite_filled
-                                      : ic_favorite_empty,
-                                  width: 24,
-                                  height: 24,
+                              onTap: () => {controller.setFavorite(product)},
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Obx(
+                                  () => Image.asset(
+                                    product.isFavorite
+                                        ? ic_favorite_filled
+                                        : ic_favorite_empty,
+                                    width: 24,
+                                    height: 24,
+                                  ),
                                 ),
-                              ),
-                            )
-                          )
+                              ))
                         ],
                       ),
                     ],
