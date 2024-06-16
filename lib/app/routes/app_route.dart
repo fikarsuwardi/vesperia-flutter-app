@@ -3,6 +3,7 @@ import 'package:entrance_test/src/features/boarding/boarding_page.dart';
 import 'package:entrance_test/src/features/boarding/component/boarding_binding.dart';
 import 'package:entrance_test/src/features/dashboard/component/dashboard_binding.dart';
 import 'package:entrance_test/src/features/dashboard/dashboard_page.dart';
+import 'package:entrance_test/src/features/dashboard/products/detail/component/product_detail_binding.dart';
 import 'package:entrance_test/src/features/dashboard/products/detail/product_detail_page.dart';
 import 'package:entrance_test/src/features/dashboard/profile/edit/edit_profile_page.dart';
 import 'package:entrance_test/src/features/splash_screen/splash_screen_page.dart';
@@ -36,6 +37,7 @@ class AppRoute {
     GetPage(
       name: RouteName.detailProduct,
       page: () => const ProductDetailPage(),
+      binding: ProductDetailBinding(),
     ),
     GetPage(
       name: RouteName.boarding,

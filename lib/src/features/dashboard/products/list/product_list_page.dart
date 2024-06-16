@@ -73,7 +73,7 @@ class ProductListPage extends GetWidget<ProductListController> {
           ),
           child: InkWell(
             onTap: () => {
-              controller.toProductDetail(product),
+              controller.toProductDetail(product.id),
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),

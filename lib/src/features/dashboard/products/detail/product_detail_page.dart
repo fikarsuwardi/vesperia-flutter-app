@@ -46,7 +46,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Triple Set Concentrate WX Bpom for Dark Spots",
+                        controller.dataDetail["data"]?["name"] ?? "",
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -55,7 +55,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                         height: 5,
                       ),
                       Text(
-                        "Rp334.000",
+                        "Rp${controller.dataDetail["data"]?["price"].toString() ?? ""}",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -75,7 +75,8 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                             width: 2,
                           ),
                           Text(
-                            "4.8",
+                            controller.dataDetail["data"]?["rating_average"] ??
+                                "",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -85,7 +86,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                             width: 2,
                           ),
                           Text(
-                            "(248 Reviews)",
+                            "(${controller.dataDetail["data"]?["review_count"].toString() ?? ""} Reviews)",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -113,7 +114,8 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                         height: 10,
                       ),
                       Text(
-                        "Mohon untuk bisa melakukan video unboxing (pembukaan paket), foto penerimaan produk, foto resi dan label pembeli saat paket sudah berhasil diterima sehingga jika ada kerusakan, kekurangan produk/hadiah, atau ketidaksesuaian produk yang diterima bisa dilakukan validasi melalui kelengkapan tersebut\nJika tidak ada atau hanya memiliki salah satu dari kelengkapan yang disebutkan, maka segala bentuk komplain yang masuk tidak bisa ditindaklanjuti atau dianggap tidak sah, kecuali memang ada kesalahan dari sisi penjual\nKerusakan packaging hanya pada bagian luar (bagian dalam utuh, produk tidak ada kerusakan/kekurangan, dll) disebabkan penanganan paket dari pihak jasa ekspedisi yang kurang baik, diharapkan agar pembeli bisa melakukan komplain langsung ke pihak jasa ekspedisi",
+                        controller.dataDetail["data"]?["description"] ??
+                            "No Description",
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -139,7 +141,9 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                         height: 10,
                       ),
                       Text(
-                        "Mohon untuk bisa melakukan video unboxing (pembukaan paket), foto penerimaan produk, foto resi dan label pembeli saat paket sudah berhasil diterima sehingga jika ada kerusakan, kekurangan produk/hadiah, atau ketidaksesuaian produk yang diterima bisa dilakukan validasi melalui kelengkapan tersebut\nJika tidak ada atau hanya memiliki salah satu dari kelengkapan yang disebutkan, maka segala bentuk komplain yang masuk tidak bisa ditindaklanjuti atau dianggap tidak sah, kecuali memang ada kesalahan dari sisi penjual\nKerusakan packaging hanya pada bagian luar (bagian dalam utuh, produk tidak ada kerusakan/kekurangan, dll) disebabkan penanganan paket dari pihak jasa ekspedisi yang kurang baik, diharapkan agar pembeli bisa melakukan komplain langsung ke pihak jasa ekspedisi",
+                        controller.dataDetail["data"]
+                                ?["refund_terms_and_condition"] ??
+                            "No TNC",
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,

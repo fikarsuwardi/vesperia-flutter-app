@@ -7,6 +7,8 @@ import '../models/request/product_list_request_model.dart';
 import '../models/response/product_list_response_model.dart';
 import '../utils/networking_util.dart';
 
+final dio = Dio();
+
 class ProductRepository {
   final Dio _client;
   final GetStorage _local;
@@ -26,6 +28,21 @@ class ProductRepository {
             'Bearer ${_local.read(LocalDataKey.token)}'),
       );
       return ProductListResponseModel.fromJson(responseJson.data);
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getProductDetail(String id) async {
+    try {
+      final response = await dio.get(
+        "http://develop-at.vesperia.id:1091/api/v1/product/$id",
+        options: NetworkingUtil.setupNetworkOptions(
+            'Bearer ${_local.read(LocalDataKey.token)}'),
+      );
+      print("gatau ${response.runtimeType}");
+      print("gatau2 ${response.data["data"]["id"]}");
+      return response.data as Map<String, dynamic>;
     } on DioError catch (_) {
       rethrow;
     }

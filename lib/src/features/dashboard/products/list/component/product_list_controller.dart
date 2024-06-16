@@ -104,9 +104,9 @@ class ProductListController extends GetxController {
     _isLoadingRetrieveMoreProduct.value = false;
   }
 
-  void toProductDetail(ProductModel product) async {
+  void toProductDetail(String id) async {
     //TODO: finish this implementation by creating product detail page & calling it here
-    Get.toNamed(RouteName.detailProduct);
+    Get.toNamed(RouteName.detailProduct, arguments: id);
   }
 
   void setFavorite(ProductModel product) {
