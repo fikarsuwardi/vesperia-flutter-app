@@ -2,6 +2,7 @@ import 'package:entrance_test/src/constants/color.dart';
 import 'package:entrance_test/src/constants/icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'component/product_detail_controller.dart';
 
 class ProductDetailPage extends GetWidget<ProductDetailController> {
@@ -35,7 +36,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: NetworkImage("https://picsum.photos/250?image=9"),
+                      image: NetworkImage(controller.getImageUrl()),
                     ),
                   ),
                 ),
@@ -55,7 +56,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                         height: 5,
                       ),
                       Text(
-                        "Rp${controller.dataDetail["data"]?["price"].toString() ?? ""}",
+                        "Rp ${NumberFormat('#,##,000').format(controller.dataDetail["data"]?["price"] ?? 0.toString())}",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
@@ -192,7 +193,8 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                             width: 2,
                           ),
                           Text(
-                            "4.8",
+                            controller.dataDetail["data"]?["rating_average"] ??
+                                "0.0",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -202,7 +204,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                             width: 5,
                           ),
                           Text(
-                            "from 302 rating",
+                            "from ${controller.dataDetail["data"]?["rating_count"].toString() ?? "0.0"} rating",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -222,7 +224,7 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                             width: 5,
                           ),
                           Text(
-                            "248 reviews",
+                            "${controller.dataDetail["data"]?["review_count"] ?? "0"} reviews",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,

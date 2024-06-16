@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:entrance_test/app/routes/route_name.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../constants/endpoint.dart';
@@ -17,6 +20,8 @@ class ProductRepository {
       : _client = client,
         _local = local;
 
+  Map dataDetail = {}.obs;
+
   Future<ProductListResponseModel> getProductList(
       ProductListRequestModel request) async {
     try {
@@ -33,7 +38,7 @@ class ProductRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getProductDetail(String id) async {
+  Future<void> getProductDetail(String id) async {
     try {
       final response = await dio.get(
         "http://develop-at.vesperia.id:1091/api/v1/product/$id",
@@ -41,8 +46,9 @@ class ProductRepository {
             'Bearer ${_local.read(LocalDataKey.token)}'),
       );
       print("gatau ${response.runtimeType}");
-      print("gatau2 ${response.data["data"]["id"]}");
-      return response.data as Map<String, dynamic>;
+      print("gatau2 ${response.data["data"]["name"]}");
+      dataDetail = response.data;
+      Get.toNamed(RouteName.detailProduct, arguments: dataDetail);
     } on DioError catch (_) {
       rethrow;
     }

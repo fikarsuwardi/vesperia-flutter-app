@@ -46,6 +46,8 @@ class ProductListController extends GetxController {
 
   final scrollController = ScrollController();
 
+  RxMap dataDetail = {}.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -106,7 +108,11 @@ class ProductListController extends GetxController {
 
   void toProductDetail(String id) async {
     //TODO: finish this implementation by creating product detail page & calling it here
-    Get.toNamed(RouteName.detailProduct, arguments: id);
+    try {
+      await _productRepository.getProductDetail(id);
+    } catch (error) {
+      SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(error));
+    }
   }
 
   void setFavorite(ProductModel product) {
