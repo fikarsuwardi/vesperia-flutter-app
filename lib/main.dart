@@ -8,13 +8,18 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:dio/dio.dart';
 import 'package:entrance_test/src/constants/local_data_key.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app_binding.dart';
 
 bool isHaveToken = false;
+int? initScreen;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = await prefs.getInt("initScreen");
+  await prefs.setInt("initScreen", 1);
   await GetStorage.init();
 
   final box = GetStorage();
@@ -37,7 +42,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Entrance Test",
-      initialRoute: isHaveToken ? RouteName.dashboard : RouteName.login,
+      initialRoute: (initScreen == 0 || initScreen == null)
+          ? RouteName.boarding
+          : isHaveToken
+              ? RouteName.dashboard
+              : RouteName.login,
       getPages: AppRoute.pages,
       initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,

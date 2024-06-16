@@ -1,4 +1,6 @@
 import 'package:entrance_test/app/routes/route_name.dart';
+import 'package:entrance_test/src/features/boarding/boarding_page.dart';
+import 'package:entrance_test/src/features/boarding/component/boarding_binding.dart';
 import 'package:entrance_test/src/features/dashboard/component/dashboard_binding.dart';
 import 'package:entrance_test/src/features/dashboard/dashboard_page.dart';
 import 'package:entrance_test/src/features/dashboard/products/detail/product_detail_page.dart';
@@ -35,5 +37,10 @@ class AppRoute {
       name: RouteName.detailProduct,
       page: () => const ProductDetailPage(),
     ),
+    GetPage(
+      name: RouteName.boarding,
+      page: () => const BoardingPage(),
+      binding: BoardingBinding(),
+    )
   ];
 }

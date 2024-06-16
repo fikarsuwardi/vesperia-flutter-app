@@ -45,7 +45,6 @@ class ProductListController extends GetxController {
   int _skip = 0;
 
   final scrollController = ScrollController();
-  int _currentPage = 1;
 
   @override
   void onInit() {
