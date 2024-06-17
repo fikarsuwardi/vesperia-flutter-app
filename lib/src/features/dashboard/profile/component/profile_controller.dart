@@ -61,8 +61,27 @@ class ProfileController extends GetxController {
     }
   }
 
-  onEditProfileClick() async {
-    Get.toNamed(RouteName.editProfile);
+  void onEditProfileClick() async {
+    Get.toNamed(RouteName.editProfile)?.then((result) async {
+      if (result[0]["backValue"] == "one") {
+        try {
+          final response = await _userRepository.getUser();
+          if (response.status == 0) {
+            final localUser = response.data;
+
+            _name.value = localUser.name;
+            _phone.value = localUser.countryCode.isNotEmpty
+                ? "+${localUser.countryCode}${localUser.phone}"
+                : "";
+            _profilePictureUrl.value = localUser.profilePicture ?? '';
+          } else {
+            SnackbarWidget.showFailedSnackbar(response.message);
+          }
+        } catch (error) {
+          SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(error));
+        }
+      }
+    });
   }
 
   /*

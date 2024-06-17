@@ -107,7 +107,10 @@ class UserRepository {
     );
 
     if (responseJson.statusCode == 200) {
-      Get.back();
+      // Get.toNamed(RouteName.editProfile);
+      Get.back(result: [
+        {"backValue": "one"}
+      ]);
       SnackbarWidget.showSuccessSnackbar('Success Edit');
     } else {
       SnackbarWidget.showFailedSnackbar('Failed');

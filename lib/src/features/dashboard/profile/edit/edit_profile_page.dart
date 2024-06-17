@@ -42,7 +42,31 @@ class EditProfilePage extends GetView<EditProfileController> {
                 const SizedBox(height: 24),
                 InkWell(
                   onTap: () {
-                    controller.changeImage();
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) => CupertinoActionSheet(
+                        actions: [
+                          CupertinoActionSheetAction(
+                            child: Text('Photo Gallery'),
+                            onPressed: () {
+                              // close the options modal
+                              Navigator.of(context).pop();
+                              // get image from gallery
+                              controller.getImageFromGallery();
+                            },
+                          ),
+                          CupertinoActionSheetAction(
+                            child: Text('Camera'),
+                            onPressed: () {
+                              // close the options modal
+                              Navigator.of(context).pop();
+                              // get image from camera
+                              controller.getImageFromCamera();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
                   },
                   child: SizedBox(
                     width: 100,
@@ -56,11 +80,12 @@ class EditProfilePage extends GetView<EditProfileController> {
                                   File(controller.profilePictureUrlOrPath),
                                   fit: BoxFit.cover,
                                 )
-                              else if (controller.isChangeImage.value)
+                              else if (controller.isChangeImage)
                                 Image.file(
-                                  File(controller.pickedImageString),
-                                  height: 45.0,
-                                  width: 45.0,
+                                  controller.imageShow!,
+                                  height: 100.0,
+                                  width: 100.0,
+                                  fit: BoxFit.fill,
                                 )
                               else
                                 CachedNetworkImage(

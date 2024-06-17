@@ -45,10 +45,17 @@ class EditProfileController extends GetxController {
 
   DateTime birthDate = DateTime.now();
 
-  RxBool isChangeImage = false.obs;
+  final _isChangeImage = false.obs;
 
-  File? pickedImageFile;
-  var pickedImageString = "";
+  bool get isChangeImage => _isChangeImage.value;
+
+  final ImagePicker _picker = ImagePicker();
+
+  // File? imageShow;
+
+  var _imageShow = File('').obs;
+
+  File get imageShow => _imageShow.value;
 
   @override
   void onInit() {
@@ -94,26 +101,29 @@ class EditProfileController extends GetxController {
     }
   }
 
-  void _pickImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.camera);
-    pickedImageString = pickedImage!.path;
-    pickedImageFile = File(pickedImage.path);
-    update();
+  //Image Picker function to get image from gallery
+  Future _getImageFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _imageShow.value = File(pickedFile.path);
+    }
+    _isChangeImage.value = true;
   }
 
-  void Function() get pickImage => _pickImage;
+  void Function() get getImageFromGallery => _getImageFromGallery;
 
-  void _changeImage() async {
-    //TODO: Implement change profile image
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.camera);
-    pickedImageFile = File(pickedImage!.path);
-    update();
-    isChangeImage = true.obs;
+//Image Picker function to get image from camera
+  Future _getImageFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      _imageShow.value = File(pickedFile.path);
+    }
+    _isChangeImage.value = true;
   }
 
-  void Function() get changeImage => _changeImage;
+  void Function() get getImageFromCamera => _getImageFromCamera;
 
   void onChangeGender(bool isFemale) {
     if (isFemale) {
