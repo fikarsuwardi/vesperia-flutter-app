@@ -45,6 +45,7 @@ class UserRepository {
           'Please give correct email and password');
       isButtonLoginDisable(false.obs);
     }
+    isButtonLoginDisable(false.obs);
   }
 
   Future<void> logout() async {

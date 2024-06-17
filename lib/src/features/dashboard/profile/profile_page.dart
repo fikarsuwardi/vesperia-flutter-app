@@ -181,17 +181,19 @@ class ProfilePage extends GetView<ProfileController> {
       },
     );
 
-    Widget continueButton = ButtonIcon(
-      buttonColor: controller.isButtonLogOutDisable.value ? Colors.grey : red50,
-      textColor: red600,
-      textLabel: "Continue",
-      onClick: () {
-        if (controller.isButtonLogOutDisable.value) {
-          null;
-        } else {
-          controller.doLogout();
-        }
-      },
+    Widget continueButton = Obx(
+      () => ButtonIcon(
+        buttonColor: controller.isButtonLogOutDisable ? Colors.grey : red50,
+        textColor: red600,
+        textLabel: "Continue",
+        onClick: () {
+          if (controller.isButtonLogOutDisable) {
+            null;
+          } else {
+            controller.doLogout();
+          }
+        },
+      ),
     );
 
     // set up the AlertDialog

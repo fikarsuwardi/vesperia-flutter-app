@@ -1,4 +1,5 @@
 import 'package:entrance_test/src/repositories/user_repository.dart';
+import 'package:entrance_test/src/utils/networking_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,9 @@ class LoginController extends GetxController {
   var isPhoneNumberValid = true.obs;
   var isPasswordValid = true.obs;
 
-  var isButtonLoginDisable = false.obs;
+  final _isButtonLoginDisable = false.obs;
+
+  bool get isButtonLoginDisable => _isButtonLoginDisable.value;
 
   bool validator() {
     bool isValid = true;
@@ -37,18 +40,18 @@ class LoginController extends GetxController {
   }
 
   void doLogin() async {
-    // if (etPhone.text != '85173254399' || etPassword.text != '12345678') {
-    //   SnackbarWidget.showFailedSnackbar('Email atau password salah');
-    //   return;
-    // }
-    isButtonLoginDisable.value = true;
-    await _userRepository.login(
-      etPhone.text,
-      etPassword.text,
-      (RxBool isButtonLoginDisable) {
-        this.isButtonLoginDisable = isButtonLoginDisable;
-      },
-    );
-    update();
+    _isButtonLoginDisable.value = true;
+    try {
+      await _userRepository.login(
+        etPhone.text,
+        etPassword.text,
+        (RxBool isButtonLoginDisable) {
+          // this._isButtonLoginDisable = isButtonLoginDisable;
+        },
+      );
+    } catch (e) {
+      SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(e));
+    }
+    _isButtonLoginDisable.value = false;
   }
 }

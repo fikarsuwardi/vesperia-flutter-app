@@ -31,7 +31,9 @@ class ProfileController extends GetxController {
     required UserRepository userRepository,
   }) : _userRepository = userRepository;
 
-  var isButtonLogOutDisable = false.obs;
+  final _isButtonLogOutDisable = false.obs;
+
+  bool get isButtonLogOutDisable => _isButtonLogOutDisable.value;
 
   @override
   void onInit() {
@@ -89,7 +91,8 @@ class ProfileController extends GetxController {
   }
 
   void doLogout() async {
-    isButtonLogOutDisable.value = true;
+    _isButtonLogOutDisable.value = true;
     await _userRepository.logout();
+    _isButtonLogOutDisable.value = false;
   }
 }

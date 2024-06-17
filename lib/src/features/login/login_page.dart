@@ -271,23 +271,29 @@ class LoginPage extends GetView<LoginController> {
         child: SizedBox(
           height: 52,
           width: double.infinity,
-          child: Obx(() {
-            return ButtonIcon(
-              buttonColor:
-                  controller.isButtonLoginDisable.value ? Colors.grey : primary,
-              textColor: white,
-              textLabel: "Sign In",
-              onClick: () {
-                if (controller.isButtonLoginDisable.value) {
-                  null;
-                } else {
-                  if (controller.validator()) {
-                    controller.doLogin();
-                  }
-                }
-              },
-            );
-          }),
+          child: Obx(
+            () => (controller.isButtonLoginDisable)
+                ? ButtonIcon(
+                    buttonColor: Colors.grey,
+                    textColor: white,
+                    textLabel: "Sign In",
+                    onClick: () {
+                      if (controller.validator()) {
+                        null;
+                      }
+                    },
+                  )
+                : ButtonIcon(
+                    buttonColor: primary,
+                    textColor: white,
+                    textLabel: "Sign In",
+                    onClick: () {
+                      if (controller.validator()) {
+                        controller.doLogin();
+                      }
+                    },
+                  ),
+          ),
         ),
       );
 }
