@@ -56,6 +56,12 @@ class EditProfilePage extends GetView<EditProfileController> {
                                   File(controller.profilePictureUrlOrPath),
                                   fit: BoxFit.cover,
                                 )
+                              else if (controller.isChangeImage.value)
+                                Image.file(
+                                  File(controller.pickedImageString),
+                                  height: 45.0,
+                                  width: 45.0,
+                                )
                               else
                                 CachedNetworkImage(
                                   width: 100,

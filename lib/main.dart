@@ -17,19 +17,7 @@ int? initScreen;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = await prefs.getInt("initScreen");
-  await prefs.setInt("initScreen", 1);
-  await GetStorage.init();
 
-  final box = GetStorage();
-  String? token = box.read(LocalDataKey.token);
-
-  if (token != null) {
-    isHaveToken = true;
-  } else {
-    isHaveToken = false;
-  }
   await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   await initializeDateFormatting('en_EN', null)
       .then((_) => runApp(const MainApp()));
@@ -42,11 +30,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Entrance Test",
-      initialRoute: (initScreen == 0 || initScreen == null)
-          ? RouteName.boarding
-          : isHaveToken
-              ? RouteName.dashboard
-              : RouteName.login,
+      initialRoute: RouteName.splashScreen,
       getPages: AppRoute.pages,
       initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,

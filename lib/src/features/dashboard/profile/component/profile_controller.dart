@@ -91,6 +91,5 @@ class ProfileController extends GetxController {
   void doLogout() async {
     isButtonLogOutDisable.value = true;
     await _userRepository.logout();
-    Get.offAllNamed(RouteName.login);
   }
 }

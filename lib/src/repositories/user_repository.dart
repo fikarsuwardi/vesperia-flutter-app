@@ -57,6 +57,7 @@ class UserRepository {
         options: NetworkingUtil.setupNetworkOptions(
             'Bearer ${_local.read(LocalDataKey.token)}'),
       );
+      Get.offAllNamed(RouteName.login);
       await _local.remove(LocalDataKey.token);
     } on DioException catch (_) {
       rethrow;
@@ -118,11 +119,31 @@ class UserRepository {
   Future<void> testUnauthenticated() async {
     try {
       final realToken = _local.read<String?>(LocalDataKey.token);
-      await _local.write(
-          LocalDataKey.token, '619|kM5YBY5yM15KEuSmSMaEzlfv0lWs83r4cp4oty2T');
-      getUser();
+      // await _local.write(
+      //     LocalDataKey.token, '619|kM5YBY5yM15KEuSmSMaEzlfv0lWs83r4cp4oty2T');
+      // getUser();
       //401 not caught as exception
       await _local.write(LocalDataKey.token, realToken);
+
+      final checkLogout = await _client.post(
+        Endpoint.signOut,
+        options: NetworkingUtil.setupNetworkOptions(
+            'Bearer ${_local.read(LocalDataKey.token)}'),
+      );
+      if (checkLogout.statusCode == 401) {
+        Get.offAllNamed(RouteName.login);
+        await _local.remove(LocalDataKey.token);
+      }
+
+      final checkDetailUser = await _client.get(
+        Endpoint.getUser,
+        options: NetworkingUtil.setupNetworkOptions(
+            'Bearer ${_local.read(LocalDataKey.token)}'),
+      );
+      if (checkDetailUser.statusCode == 401) {
+        Get.offAllNamed(RouteName.login);
+        await _local.remove(LocalDataKey.token);
+      }
     } on DioException catch (_) {
       rethrow;
     }

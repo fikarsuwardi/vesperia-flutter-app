@@ -45,9 +45,10 @@ class LoginController extends GetxController {
     await _userRepository.login(
       etPhone.text,
       etPassword.text,
-      (var isButtonLoginDisable) {
+      (RxBool isButtonLoginDisable) {
         this.isButtonLoginDisable = isButtonLoginDisable;
       },
     );
+    update();
   }
 }

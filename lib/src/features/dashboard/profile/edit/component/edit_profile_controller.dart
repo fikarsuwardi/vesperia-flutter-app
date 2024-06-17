@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:entrance_test/src/repositories/user_repository.dart';
+import 'package:entrance_test/src/utils/date_util.dart';
+import 'package:entrance_test/src/utils/networking_util.dart';
 import 'package:entrance_test/src/utils/string_ext.dart';
+import 'package:entrance_test/src/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../utils/date_util.dart';
-import '../../../../../utils/networking_util.dart';
-import '../../../../../widgets/snackbar_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfileController extends GetxController {
   final UserRepository _userRepository;
@@ -42,6 +44,11 @@ class EditProfileController extends GetxController {
   bool get isGenderFemale => _isGenderFemale.value;
 
   DateTime birthDate = DateTime.now();
+
+  RxBool isChangeImage = false.obs;
+
+  File? pickedImageFile;
+  var pickedImageString = "";
 
   @override
   void onInit() {
@@ -87,9 +94,26 @@ class EditProfileController extends GetxController {
     }
   }
 
-  void changeImage() async {
-    //TODO: Implement change profile image
+  void _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.camera);
+    pickedImageString = pickedImage!.path;
+    pickedImageFile = File(pickedImage!.path);
+    update();
   }
+
+  void Function() get pickImage => _pickImage;
+
+  void _changeImage() async {
+    //TODO: Implement change profile image
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.camera);
+    pickedImageFile = File(pickedImage!.path);
+    update();
+    isChangeImage = true.obs;
+  }
+
+  void Function() get changeImage => _changeImage;
 
   void onChangeGender(bool isFemale) {
     if (isFemale) {
