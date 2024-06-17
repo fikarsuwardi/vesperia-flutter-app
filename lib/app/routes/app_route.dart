@@ -43,6 +43,6 @@ class AppRoute {
       name: RouteName.boarding,
       page: () => const BoardingPage(),
       binding: BoardingBinding(),
-    )
+    ),
   ];
 }

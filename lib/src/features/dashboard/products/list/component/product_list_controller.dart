@@ -1,6 +1,12 @@
 import 'package:entrance_test/app/routes/route_name.dart';
+import 'package:entrance_test/src/models/favorite_list_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqlite_api.dart';
+import 'package:path/path.dart' as path;
 
 import '../../../../../models/product_model.dart';
 import '../../../../../models/request/product_list_request_model.dart';
@@ -47,11 +53,26 @@ class ProductListController extends GetxController {
   final scrollController = ScrollController();
 
   RxMap dataDetail = {}.obs;
+  RxList<FavoriteListModel> listFavorite = <FavoriteListModel>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     getProducts();
+    final db = await _getDatabase();
+    final data = await db.query('favorites');
+    final favorites = data
+        .map(
+          (row) => FavoriteListModel(
+            id: row['id'] as String,
+            name: row['name'] as String,
+            price: row['price'] as int,
+            isFavorite: row['is_favorite'] as int,
+            idDetail: row['id_detail'] as String,
+          ),
+        )
+        .toList();
+    listFavorite = favorites.obs;
     scrollController.addListener(_loadMore);
   }
 
@@ -77,6 +98,7 @@ class ProductListController extends GetxController {
       _products.refresh();
       _isLastPageProduct.value = productList.data.length < _limit;
       _skip = products.length;
+      await _getDatabase();
     } catch (error) {
       SnackbarWidget.showFailedSnackbar(NetworkingUtil.errorMessage(error));
     }
@@ -107,7 +129,6 @@ class ProductListController extends GetxController {
   }
 
   void toProductDetail(String id) async {
-    //TODO: finish this implementation by creating product detail page & calling it here
     try {
       await _productRepository.getProductDetail(id);
     } catch (error) {
@@ -115,7 +136,61 @@ class ProductListController extends GetxController {
     }
   }
 
-  void setFavorite(ProductModel product) {
+  Future<Database> _getDatabase() async {
+    final dbPath = await sql.getDatabasesPath();
+    final db = await sql.openDatabase(
+      path.join(dbPath, 'vesperia3.db'),
+      onCreate: (db, version) {
+        return db.execute(
+            'CREATE TABLE favorites(id TEXT PRIMARY KEY, name TEXT, price INTEGER, is_favorite INTEGER, id_detail TEXT)');
+      },
+      version: 1,
+    );
+    return db;
+  }
+
+  void setFavorite(ProductModel product) async {
     product.isFavorite = !product.isFavorite;
+
+    if (product.isFavorite == true) {
+      final newItem = FavoriteListModel(
+        name: product.name,
+        price: product.price,
+        isFavorite: 1,
+        idDetail: product.id,
+      );
+
+      final db = await _getDatabase();
+      db.insert('favorites', {
+        'id': newItem.id,
+        'name': newItem.name,
+        'price': newItem.price,
+        'is_favorite': newItem.isFavorite,
+        'id_detail': newItem.idDetail,
+      });
+      product.idFavorite = newItem.id;
+    } else {
+      final db = await _getDatabase();
+      db.delete(
+        'favorites',
+        where: 'id = ?',
+        whereArgs: [product.idFavorite],
+      );
+    }
+
+    final db = await _getDatabase();
+    final data = await db.query('favorites');
+    final favorites = data
+        .map(
+          (row) => FavoriteListModel(
+            id: row['id'] as String,
+            name: row['name'] as String,
+            price: row['price'] as int,
+            isFavorite: row['is_favorite'] as int,
+            idDetail: row['id_detail'] as String,
+          ),
+        )
+        .toList();
+    listFavorite = favorites.obs;
   }
 }

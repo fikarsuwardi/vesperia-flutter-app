@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:entrance_test/src/models/favorite_list_model.dart';
 import 'package:entrance_test/src/models/product_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
@@ -13,7 +14,7 @@ Future<Database> _getDatabase() async {
     path.join(dbPath, 'vesperia.db'),
     onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE favorites(id TEXT PRIMARY KEY, name TEXT, price INTEGER, price_after_discount INTEGER)');
+          'CREATE TABLE favorites(id TEXT PRIMARY KEY, name TEXT, price INTEGER, is_favorite INTEGER)');
     },
     version: 1,
   );
@@ -25,33 +26,34 @@ Future<void> loadPlaces() async {
   final data = await db.query('favorites');
   final favorites = data
       .map(
-        (row) => ProductModel(
+        (row) => FavoriteListModel(
           id: row['id'] as String,
           name: row['name'] as String,
           price: row['price'] as int,
-          discountPrice: row['price_after_discount'] as int,
-          images: [],
+          isFavorite: row['is_favorite'] as int,
+          idDetail: row['id_detail'] as String,
         ),
       )
       .toList();
 }
 
-// void addPlace(String title, File image, PlaceLocation location) async {
-//   final appDir = await syspaths.getApplicationDocumentsDirectory();
-//   final filename = path.basename(image.path);
-//   final copiedImage = await image.copy('${appDir.path}/$filename');
-//
-//   final newPlace = Place(title: title, image: copiedImage, location: location);
-//
-//   final db = await _getDatabase();
-//   db.insert('user_places', {
-//     'id': newPlace.id,
-//     'title': newPlace.title,
-//     'image': newPlace.image.path,
-//     'lat': newPlace.location.latitude,
-//     'lng': newPlace.location.longitude,
-//     'address': newPlace.location.address,
-//   });
-//
-//   state = [newPlace, ...state];
-// }
+void addPlace(
+    String id, String name, int price, int isFavorite, String idDetail) async {
+  final appDir = await syspaths.getApplicationDocumentsDirectory();
+
+  final newItem = FavoriteListModel(
+    id: id,
+    name: name,
+    price: price,
+    isFavorite: isFavorite,
+    idDetail: idDetail,
+  );
+
+  final db = await _getDatabase();
+  db.insert('user_places', {
+    'id': newItem.id,
+    'name': newItem.name,
+    'price': newItem.price,
+    'is_favorite': newItem.isFavorite,
+  });
+}

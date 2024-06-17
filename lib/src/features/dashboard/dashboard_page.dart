@@ -13,7 +13,9 @@ class DashboardPage extends GetView<DashboardController> {
     return Scaffold(
       body: Obx(
         () => IndexedStack(
-            index: controller.selectedNavbar, children: controller.listPages),
+          index: controller.selectedNavbar,
+          children: controller.listPages,
+        ),
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
