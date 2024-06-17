@@ -11,7 +11,6 @@ import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
 import 'package:sqflite/sqflite.dart' as sql;
-import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart' as path;
 
 class ProfileController extends GetxController {

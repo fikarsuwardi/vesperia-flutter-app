@@ -82,7 +82,7 @@ class EditProfilePage extends GetView<EditProfileController> {
                                 )
                               else if (controller.isChangeImage)
                                 Image.file(
-                                  controller.imageShow!,
+                                  controller.imageShow,
                                   height: 100.0,
                                   width: 100.0,
                                   fit: BoxFit.fill,
