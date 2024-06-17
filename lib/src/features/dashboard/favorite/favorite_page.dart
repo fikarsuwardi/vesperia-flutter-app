@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:entrance_test/src/constants/color.dart';
 import 'package:entrance_test/src/constants/icon.dart';
-import 'package:entrance_test/src/features/dashboard/favorite/component/favorite_controller.dart';
 import 'package:entrance_test/src/features/dashboard/products/list/component/product_list_controller.dart';
-import 'package:entrance_test/src/utils/number_ext.dart';
 import 'package:entrance_test/src/widgets/empty_list_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -82,6 +79,22 @@ class FavoritePage extends GetWidget<ProductListController> {
                           ic_error_image,
                           fit: BoxFit.contain,
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                              onTap: () =>
+                                  {controller.removeFavorite(favoriteItem.id)},
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Image.asset(
+                                  ic_favorite_filled,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ))
+                        ],
                       ),
                     ],
                   ),

@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:entrance_test/src/models/favorite_list_model.dart';
-import 'package:entrance_test/src/models/product_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:path/path.dart' as path;
@@ -24,6 +21,7 @@ Future<Database> _getDatabase() async {
 Future<void> loadPlaces() async {
   final db = await _getDatabase();
   final data = await db.query('favorites');
+  // ignore: unused_local_variable
   final favorites = data
       .map(
         (row) => FavoriteListModel(
@@ -39,8 +37,6 @@ Future<void> loadPlaces() async {
 
 void addPlace(
     String id, String name, int price, int isFavorite, String idDetail) async {
-  final appDir = await syspaths.getApplicationDocumentsDirectory();
-
   final newItem = FavoriteListModel(
     id: id,
     name: name,

@@ -1,9 +1,6 @@
-import 'package:entrance_test/app/routes/route_name.dart';
 import 'package:entrance_test/src/models/favorite_list_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart' as path;
@@ -53,7 +50,10 @@ class ProductListController extends GetxController {
   final scrollController = ScrollController();
 
   RxMap dataDetail = {}.obs;
-  RxList<FavoriteListModel> listFavorite = <FavoriteListModel>[].obs;
+
+  final _listFavorite = Rx<List<FavoriteListModel>>([]);
+
+  List<FavoriteListModel> get listFavorite => _listFavorite.value;
 
   @override
   void onInit() async {
@@ -72,7 +72,7 @@ class ProductListController extends GetxController {
           ),
         )
         .toList();
-    listFavorite = favorites.obs;
+    _listFavorite.value = favorites;
     scrollController.addListener(_loadMore);
   }
 
@@ -191,6 +191,29 @@ class ProductListController extends GetxController {
           ),
         )
         .toList();
-    listFavorite = favorites.obs;
+    _listFavorite.value = favorites;
+  }
+
+  void removeFavorite(String id) async {
+    final db = await _getDatabase();
+    db.delete(
+      'favorites',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    final data = await db.query('favorites');
+    final favorites = data
+        .map(
+          (row) => FavoriteListModel(
+            id: row['id'] as String,
+            name: row['name'] as String,
+            price: row['price'] as int,
+            isFavorite: row['is_favorite'] as int,
+            idDetail: row['id_detail'] as String,
+          ),
+        )
+        .toList();
+    _listFavorite.value = favorites;
   }
 }

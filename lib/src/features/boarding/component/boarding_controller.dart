@@ -3,6 +3,7 @@ import 'package:entrance_test/src/repositories/user_repository.dart';
 import 'package:get/get.dart';
 
 class BoardingController extends GetxController {
+  // ignore: unused_field
   final UserRepository _userRepository;
 
   BoardingController({

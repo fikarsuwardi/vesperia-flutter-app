@@ -56,13 +56,40 @@ class ProductDetailPage extends GetWidget<ProductDetailController> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text(
-                        "Rp ${NumberFormat.decimalPattern('id').format(controller.dataDetail["data"]?["price"] ?? 0.toString())}",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                      if (controller.dataDetail["data"]
+                              ?["price_after_discount"] !=
+                          controller.dataDetail["data"]?["price"])
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Rp ${NumberFormat.decimalPattern('id').format(controller.dataDetail["data"]?["price"] ?? 0.toString())}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: gray600,
+                                fontWeight: FontWeight.w700,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                            Text(
+                              "Rp ${NumberFormat.decimalPattern('id').format(controller.dataDetail["data"]?["price_after_discount"] ?? 0.toString())}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: red600,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        )
+                      else
+                        Text(
+                          "Rp ${NumberFormat.decimalPattern('id').format(controller.dataDetail["data"]?["price"] ?? 0.toString())}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
                       const SizedBox(
                         height: 5,
                       ),

@@ -98,7 +98,7 @@ class EditProfileController extends GetxController {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.camera);
     pickedImageString = pickedImage!.path;
-    pickedImageFile = File(pickedImage!.path);
+    pickedImageFile = File(pickedImage.path);
     update();
   }
 

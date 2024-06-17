@@ -1,12 +1,8 @@
 import 'package:entrance_test/src/repositories/product_repository.dart';
-import 'package:entrance_test/src/utils/networking_util.dart';
-import 'package:entrance_test/src/widgets/snackbar_widget.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:entrance_test/src/utils/number_ext.dart';
 
 class ProductDetailController extends GetxController {
+  // ignore: unused_field
   final ProductRepository _productRepository;
 
   ProductDetailController({

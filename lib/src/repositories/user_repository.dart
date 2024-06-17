@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:entrance_test/app/routes/route_name.dart';
 import 'package:entrance_test/src/constants/local_data_key.dart';
+import 'package:entrance_test/src/repositories/product_repository.dart';
 import 'package:entrance_test/src/widgets/snackbar_widget.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
@@ -119,22 +120,12 @@ class UserRepository {
    */
   Future<void> testUnauthenticated() async {
     try {
-      final realToken = _local.read<String?>(LocalDataKey.token);
+      // final realToken = _local.read<String?>(LocalDataKey.token);
       // await _local.write(
       //     LocalDataKey.token, '619|kM5YBY5yM15KEuSmSMaEzlfv0lWs83r4cp4oty2T');
       // getUser();
       //401 not caught as exception
-      await _local.write(LocalDataKey.token, realToken);
-
-      final checkLogout = await _client.post(
-        Endpoint.signOut,
-        options: NetworkingUtil.setupNetworkOptions(
-            'Bearer ${_local.read(LocalDataKey.token)}'),
-      );
-      if (checkLogout.statusCode == 401) {
-        Get.offAllNamed(RouteName.login);
-        await _local.remove(LocalDataKey.token);
-      }
+      // await _local.write(LocalDataKey.token, realToken);
 
       final checkDetailUser = await _client.get(
         Endpoint.getUser,
@@ -145,6 +136,29 @@ class UserRepository {
         Get.offAllNamed(RouteName.login);
         await _local.remove(LocalDataKey.token);
       }
+
+      final checkListProduct = await _client.get(
+        Endpoint.getProductList,
+        options: NetworkingUtil.setupNetworkOptions(
+            'Bearer ${_local.read(LocalDataKey.token)}'),
+      );
+
+      if (checkListProduct.statusCode == 401) {
+        Get.offAllNamed(RouteName.login);
+        await _local.remove(LocalDataKey.token);
+      }
+
+      final checkDetailProduct = await dio.get(
+        "http://develop-at.vesperia.id:1091/api/v1/product/995a435d-f2ef-436f-90ed-f65a5260ee52",
+        options: NetworkingUtil.setupNetworkOptions(
+            'Bearer ${_local.read(LocalDataKey.token)}'),
+      );
+
+      if (checkDetailProduct.statusCode == 401) {
+        Get.offAllNamed(RouteName.login);
+        await _local.remove(LocalDataKey.token);
+      }
+      SnackbarWidget.showSuccessSnackbar("Everything Good");
     } on DioException catch (_) {
       rethrow;
     }

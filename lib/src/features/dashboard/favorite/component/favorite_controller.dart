@@ -1,19 +1,15 @@
 import 'package:entrance_test/src/repositories/product_repository.dart';
 import 'package:get/get.dart';
 import 'package:entrance_test/src/models/favorite_list_model.dart';
-import 'package:entrance_test/src/models/product_model.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
 
 class FavoriteController extends GetxController {
-  final ProductRepository _productRepository;
-
   FavoriteController({
     required ProductRepository productRepository,
-  }) : _productRepository = productRepository;
+  });
 
   List<FavoriteListModel> listFavorite = [];
 

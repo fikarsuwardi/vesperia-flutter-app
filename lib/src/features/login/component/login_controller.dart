@@ -3,6 +3,7 @@ import 'package:entrance_test/src/utils/networking_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+// ignore: unused_import
 import '../../../../app/routes/route_name.dart';
 import '../../../widgets/snackbar_widget.dart';
 

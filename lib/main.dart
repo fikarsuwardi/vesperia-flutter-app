@@ -1,14 +1,9 @@
 import 'package:entrance_test/app/routes/app_route.dart';
 import 'package:entrance_test/app/routes/route_name.dart';
-import 'package:entrance_test/src/features/splash_screen/splash_screen_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:dio/dio.dart';
-import 'package:entrance_test/src/constants/local_data_key.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app_binding.dart';
 

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+// ignore: duplicate_import
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:entrance_test/src/utils/number_ext.dart';

@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:entrance_test/src/repositories/user_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../app/routes/route_name.dart';
@@ -11,6 +9,9 @@ import 'dart:io';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
+import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqlite_api.dart';
+import 'package:path/path.dart' as path;
 
 class ProfileController extends GetxController {
   final UserRepository _userRepository;
@@ -94,5 +95,16 @@ class ProfileController extends GetxController {
     _isButtonLogOutDisable.value = true;
     await _userRepository.logout();
     _isButtonLogOutDisable.value = false;
+
+    final dbPath = await sql.getDatabasesPath();
+    final db = await sql.openDatabase(
+      path.join(dbPath, 'vesperia3.db'),
+      onCreate: (db, version) {
+        return db.execute(
+            'CREATE TABLE favorites(id TEXT PRIMARY KEY, name TEXT, price INTEGER, is_favorite INTEGER, id_detail TEXT)');
+      },
+      version: 1,
+    );
+    db.rawDelete("DELETE FROM favorites");
   }
 }

@@ -1,13 +1,9 @@
 import 'package:entrance_test/src/constants/local_data_key.dart';
-import 'package:entrance_test/src/repositories/user_repository.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../app/routes/route_name.dart';
-import '../../../widgets/snackbar_widget.dart';
 
 class SplashScreenController extends GetxController {
   // final UserRepository _userRepository;
