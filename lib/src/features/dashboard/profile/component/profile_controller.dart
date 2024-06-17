@@ -1,5 +1,6 @@
 import 'package:entrance_test/src/repositories/user_repository.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../../../app/routes/route_name.dart';
 import '../../../../utils/networking_util.dart';
@@ -96,7 +97,13 @@ class ProfileController extends GetxController {
     String fileurl =
         "https://www.tutorialspoint.com/flutter/flutter_tutorial.pdf";
     var timeStamp = DateTime.now().millisecondsSinceEpoch;
-    var path = "/storage/emulated/0/Download/tutorial-$timeStamp.pdf";
+    var downloadDir = await getApplicationDocumentsDirectory();
+    var path = "";
+    if (Platform.isAndroid) {
+      path = "/storage/emulated/0/Download/tutorial-$timeStamp.pdf";
+    } else {
+      path = "${downloadDir.path}/Download/tutorial-$timeStamp.pdf";
+    }
     var file = File(path);
     var res = await get(Uri.parse(fileurl));
     file.writeAsBytes(res.bodyBytes);

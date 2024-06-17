@@ -3,17 +3,12 @@ import 'package:entrance_test/app/routes/route_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'app/app_binding.dart';
-
-bool isHaveToken = false;
-int? initScreen;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   await initializeDateFormatting('en_EN', null)
       .then((_) => runApp(const MainApp()));
 }
