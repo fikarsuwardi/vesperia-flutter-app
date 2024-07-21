@@ -1,3 +1,7 @@
-# entrance_test
+# shopping_list
 
-A new Flutter project.
+## New Item
+![login view](/assets/ss/new_item.png "login_view")
+
+## Grocery List
+![login view](/assets/ss/grocery_list.png "register_view")
