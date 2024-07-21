@@ -1,7 +1,22 @@
-# shopping_list
+# vesperia_flutter_app
 
-## New Item
-![login view](/assets/ss/new_item.png "login_view")
+## Onboarding
+![onboarding](/assets/ss/onboarding.png "onboarding")
 
-## Grocery List
-![login view](/assets/ss/grocery_list.png "register_view")
+## Login
+![login](/assets/ss/login.png "login")
+
+## List Produk
+![product](/assets/ss/list-product.png "product")
+
+## Detail Produk
+![detail-product](/assets/ss/detail-product.png "detail-product")
+
+## Profile
+![profile](/assets/ss/profile.png "profile")
+
+## Edit Profile
+![edit profile](/assets/ss/edit-profile.png "edit profile")
+
+## Favorite
+![favorite](/assets/ss/favorite.png "favorite")
